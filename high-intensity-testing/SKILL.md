@@ -1,6 +1,6 @@
 ---
 name: high-intensity-testing
-description: 超高强度代码审查与测试工作流——OCR 委托审查起手、并行子代理六步工作法、修复声明 vs 实现对照、发现固化成测试,附 15 问触发清单与 30 条失效模式测试技巧。当任务涉及:全面审查、高强度测试、对抗审计、里程碑前质量门、"按上次审查的方式"、修复批次验收、审查报告、回归测试固化、审查一个分支/一批修复的质量时使用。Ultra-high-intensity review & testing workflow: OCR delegate review, parallel sub-agent six-step methodology, claim-to-evidence audit, 30 failure-mode testing techniques.
+description: "超高强度代码审查与测试工作流——OCR 委托审查起手、并行子代理六步工作法、修复声明 vs 实现对照、发现固化成测试,附 15 问触发清单与 30 条失效模式测试技巧。当任务涉及:全面审查、高强度测试、对抗审计、里程碑前质量门、「按上次审查的方式」、修复批次验收、审查报告、回归测试固化、审查一个分支/一批修复的质量时使用。Ultra-high-intensity review & testing workflow — OCR delegate review, parallel sub-agent six-step methodology, claim-to-evidence audit, 30 failure-mode testing techniques."
 ---
 
 # 超高强度审查与测试(high-intensity-testing)
