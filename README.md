@@ -7,6 +7,7 @@
 | 技能 | 说明 |
 |---|---|
 | [mine-imagery-gehi](mine-imagery-gehi/SKILL.md) | 按 KML 多边形批量获取谷歌地球影像(最新一期/多期历史),GEHistoricalImagery 时间轴查询 + z18 下载 + EPSG:4326 GeoTIFF,免 GUI、免 GDAL |
+| [high-intensity-testing](high-intensity-testing/SKILL.md) | 超高强度审查与测试工作流:OCR 委托审查起手 + 并行子代理六步工作法 + 修复声明对照 + 发现固化成测试,附 15 问触发清单与 30 条失效模式技巧(三源融合:agent-skills / open-code-review / 自研测试 playbook) |
 
 ## 使用方式
 
