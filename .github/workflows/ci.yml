@@ -1,0 +1,47 @@
+name: ci
+
+on: [push, pull_request]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install runtime deps (mine-imagery-gehi scripts)
+        run: pip install numpy tifffile pillow
+
+      - name: Syntax check all skill scripts
+        run: |
+          python -m py_compile mine-imagery-gehi/scripts/*.py
+          python -m py_compile high-intensity-testing/scripts/*.py
+
+      - name: Unit tests (mine-imagery-gehi)
+        run: python -m unittest discover -s mine-imagery-gehi/tests -p "test_*.py" -v
+
+      - name: Unit tests (high-intensity-testing preflight)
+        run: python -m unittest discover -s high-intensity-testing/tests -p "test_*.py" -v
+
+      - name: Eval cases are well-formed JSONL
+        run: |
+          python - <<'EOF'
+          import json
+          with open("high-intensity-testing/evals/cases.jsonl", encoding="utf-8") as f:
+              n = sum(1 for line in f if line.strip() and json.loads(line))
+          print(f"{n} eval cases OK")
+          assert n >= 10
+          EOF
+
+      - name: Preflight smoke (fallback works on this repo, no OCR)
+        run: python high-intensity-testing/scripts/review-preflight.py .
+
+      - name: Skill spec validation (best-effort)
+        continue-on-error: true
+        run: |
+          pip install skills-ref
+          skills-ref validate high-intensity-testing || true
+          skills-ref validate mine-imagery-gehi || true

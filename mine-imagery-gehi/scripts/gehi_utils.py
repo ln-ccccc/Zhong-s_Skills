@@ -181,7 +181,10 @@ def download(bbox, date, outpath, retries=3):
                 a = tifffile.imread(tmp).astype(np.float32)
                 H0, W0 = a.shape[:2]
                 geo = read_geotags(tmp)
-                if geo is not None and not z18_bounds_ok(bbox, W0, H0, *geo):
+                # fail-closed: 拿不到源 geotag 就无法证明空间有效性,宁可失败不可带病交付
+                if geo is None:
+                    return False, "missing source georeference: 源 GeoTIFF 无 geotag"
+                if not z18_bounds_ok(bbox, W0, H0, *geo):
                     return False, "georef mismatch: 下载栅格范围偏离请求 bbox"
                 H, W = H0 - H0 % 2, W0 - W0 % 2
                 if H < 2 or W < 2:

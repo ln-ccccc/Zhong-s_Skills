@@ -10,6 +10,7 @@ import json
 import os
 import sys
 import xml.etree.ElementTree as ET
+from collections import Counter
 
 SRC = "input.kml"          # 输入 KML
 DST = "mines.json"         # 输出 JSON
@@ -22,8 +23,20 @@ def _local(tag):
     return tag.rsplit("}", 1)[-1]
 
 
+def validate_fids(mines):
+    """FID 数据唯一性守卫:空/重复 FID 直接拒绝。
+    下游 rows[fid] 与 {fid}_{YYYYMM}.tif 都以 FID 为键,重复会静默覆盖。"""
+    ids = [m["fid"] for m in mines]
+    if any(not fid for fid in ids):
+        raise ValueError(f"empty FID: {ids.count('')} 个 Placemark 缺少 {FID_FIELD} 字段")
+    dups = sorted(f for f, c in Counter(ids).items() if c > 1)
+    if dups:
+        raise ValueError(f"duplicate FID: {dups}")
+
+
 def parse_kml_text(text, fid_field=FID_FIELD, extra_fields=None):
-    """KML 文本 -> (mines, skipped)。skipped 是无几何坐标的 Placemark fid 列表。"""
+    """KML 文本 -> (mines, skipped)。skipped 是无几何坐标的 Placemark fid 列表。
+    带几何但 FID 为空/重复时抛 ValueError(数据唯一性守卫)。"""
     if extra_fields is None:
         extra_fields = EXTRA_FIELDS
     root = ET.fromstring(text)
@@ -51,6 +64,7 @@ def parse_kml_text(text, fid_field=FID_FIELD, extra_fields=None):
         mines.append({"fid": fid,
                       "bbox": [min(lons), min(lats), max(lons), max(lats)],
                       **{f.lower(): fields.get(f, "") for f in extra_fields}})
+    validate_fids(mines)
     return mines, skipped
 
 

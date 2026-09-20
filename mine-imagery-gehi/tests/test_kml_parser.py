@@ -78,6 +78,22 @@ class TestParseKml(unittest.TestCase):
         mines, _ = parse_kml_text(f"<kml {NS}><Document>{pm}</Document></kml>")
         self.assertEqual(mines[0]["bbox"], [100.0, 30.0, 100.1, 30.1])
 
+    def test_empty_fid_rejected(self):
+        pm = "<Placemark><SimpleData name=\"OTHER\">x</SimpleData><Polygon><outerBoundaryIs>" \
+             "<LinearRing><coordinates>100.0,30.0 100.1,30.0 100.1,30.1 100.0,30.1</coordinates>" \
+             "</LinearRing></outerBoundaryIs></Polygon></Placemark>"
+        with self.assertRaises(ValueError) as ctx:
+            parse_kml_text(f"<kml {NS}><Document>{pm}</Document></kml>")
+        self.assertIn("empty FID", str(ctx.exception))
+
+    def test_duplicate_fid_rejected(self):
+        # 下游 rows[fid]/文件名都以 FID 为键,重复会静默覆盖,必须在解析层拒绝
+        pm = placemark(fid="10") + placemark(fid="10")
+        with self.assertRaises(ValueError) as ctx:
+            parse_kml_text(f"<kml {NS}><Document>{pm}</Document></kml>")
+        self.assertIn("duplicate FID", str(ctx.exception))
+        self.assertIn("'10'", str(ctx.exception))
+
 
 if __name__ == "__main__":
     unittest.main()

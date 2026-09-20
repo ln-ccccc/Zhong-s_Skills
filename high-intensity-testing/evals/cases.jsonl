@@ -1,0 +1,12 @@
+{"prompt": "对这个修复分支做一次全面审查再合并", "trigger": true, "mode": "full", "references": ["review-playbook.md", "severity.md", "report-template.md"]}
+{"prompt": "按上次审查的方式再查一遍", "trigger": true, "mode": "full", "references": ["review-playbook.md"]}
+{"prompt": "这 24 个修复提交验收一下", "trigger": true, "mode": "full", "references": ["severity.md", "report-template.md"], "must": ["T26 声明对照", "回归墓碑检查", "权威门"]}
+{"prompt": "里程碑发布前做一轮对抗审计", "trigger": true, "mode": "full", "references": ["review-playbook.md", "failure-modes.md"]}
+{"prompt": "这个 bug 修了,帮我确认不会回归", "trigger": true, "mode": "fast", "must": ["Prove-It 先红后绿"]}
+{"prompt": "帮我把这轮发现固化成测试", "trigger": true, "mode": "fast", "references": ["failure-modes.md"]}
+{"prompt": "审查报告里这两条 P1 我觉得是误报", "trigger": true, "mode": "fast", "references": ["severity.md"], "must": ["主控复现裁决", "共识不替代复现"]}
+{"prompt": "hotfix 很急但帮我过一下质量", "trigger": true, "mode": "fast", "must": ["Prove-It + 权威门保底"]}
+{"prompt": "按钮改成蓝色", "trigger": false}
+{"prompt": "跑一下后端测试套件", "trigger": false}
+{"prompt": "帮我读一下这个函数在干嘛", "trigger": false}
+{"prompt": "帮我看看这个单文件有没有明显问题", "trigger": false, "note": "灰色地带:只做文件级走查,不派遍/子代理"}

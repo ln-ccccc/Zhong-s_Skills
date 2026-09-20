@@ -43,7 +43,7 @@ KML/矢量 → ①解析多边形(fid+bbox) → ②bbox 外扩缓冲 → ③avai
         → ⑦tifffile 写 GeoTIFF + manifest 清单
 ```
 
-1. **解析**:从 KML 提取每块的 ID(如属性字段 `FID_1`)和经纬度 bbox。→ `scripts/parse_kml_polygons.py`
+1. **解析**:从 KML 提取每块的 ID(如属性字段 `FID_1`)和经纬度 bbox。ElementTree 命名空间无关解析(`kml:` 前缀 / MultiGeometry / CDATA / 内环均天然支持);带几何但 FID 为空或重复时**直接拒绝**——下游 manifest 与文件名都以 FID 为键,重复会静默覆盖。→ `scripts/parse_kml_polygons.py`
 2. **缓冲**:bbox 向四周外扩(矿山图斑惯例 250m),保证图斑边界完整、留判读背景。
 3. **查日期**:availability 按 bbox 查询,`--zoom 17`(与交付 GSD 同级),失败重试 3 次、退避 3/8/13s。
 4. **覆盖率**:每期日期的 coverage 面片画到 160×160 栅格上算覆盖率(PIL polygon 填充,MultiPolygon 需拆环)。
@@ -51,20 +51,20 @@ KML/矢量 → ①解析多边形(fid+bbox) → ②bbox 外扩缓冲 → ③avai
    - 最新一期场景:`coverage ≥ 0.999` 的日期里取最晚;无完整覆盖则取最晚日期并在清单标记 incomplete;
    - 多期历史场景:每窗口(如 2012–2016 / 2017–2020 / 2021–2025)独立执行同一规则;
    - 天气敏感场景追加:生长季(4–10 月)优先;增强白亮指标 `white + 2*bright < 0.055` 才接受(雪、厚云、雾会误报矿坑裸岩,须拼图目检确认后换期)。
-6. **下载**:按选定日期 `-z 18` 下载(原生约 0.6m/px),2×盒滤波降采样到交付 GSD——比直接 z17 下载清晰度明显更好(老影像 +32%,新影像视觉无损)。z17 直接下载有谷歌瓦片重采样损耗。
+6. **下载**:按选定日期 `-z 18` 下载(原生约 0.6m/px)→ **georef 门(fail-closed)**:源 GeoTIFF 无 geotag 或实际范围偏离请求 bbox 超 4 像素容差,直接判失败(空间无效的影像宁可不要)→ 裁偶数边 → 2×盒滤波降采样——比直接 z17 下载清晰度明显更好(老影像 +32%,新影像视觉无损)。z17 直接下载有谷歌瓦片重采样损耗。
 7. **写出**:tifffile 写 RGB GeoTIFF(deflate 无损),手工嵌入 GeoTIFF 标签(免 GDAL):
-   - `33550` ModelPixelScale = (GSD, GSD, 0)
+   - `33550` ModelPixelScale = (xres, yres, 0),其中 **xres=(east-west)/width、yres=(north-south)/height**,由请求 bbox 与实际输出尺寸推导——交付栅格精确铺满请求 bbox,多时相叠加/变化检测无系统性偏移;勿写死单一 GSD 常量(随源尺寸漂移)
    - `33922` ModelTiepoint = (0,0,0, west, north, 0)
    - `34735` GeoKeyDirectory = GTModelTypeGeoKey=2(地理坐标)、GTRasterTypeGeoKey=1、GeographicTypeGeoKey=4326、GeogAngularUnitsGeoKey=9102
-   - 同步写 `manifest.csv`:fid / image_date / coverage / status / 属地信息,失败可 `--retry` 增量补跑。
+   - 同步写 `manifest.csv`:fid / image_date / coverage / status / 属地信息;失败/缺失可 `--retry` 增量补跑(OK 前缀状态跳过)。
 
 ## 关键参数(实测定版)
 
 | 参数 | 值 | 说明 |
 |---|---|---|
-| 交付 GSD | `1.0728836059570312e-05` deg/px | = 360/2^25,GEP Level 18 ≈ z17,赤道 1.194 m/px |
-| 下载 zoom | 18 | + 2×盒滤波降采样到交付 GSD,规避 z17 重采样损耗 |
-| availability zoom | 17 | 与交付 GSD 同级 |
+| 交付 GSD | **bbox 推导**:`xres=(east-west)/width, yres=(north-south)/height` | 交付栅格精确铺满请求 bbox;`360/2^25 ≈ 1.0729e-05` deg/px(GEP L18 ≈ z17,赤道 1.19 m/px)仅为名义参考值,非权威输出分辨率 |
+| 下载 zoom | 18 | + 2×盒滤波降采样,规避 z17 重采样损耗 |
+| availability zoom | 17 | 与交付 GSD 同级;查询上限默认当天(动态,无硬编码年份) |
 | 缓冲 | 250m | dlat=250/110574; dlon=250/(111320·cos lat) |
 | 完整覆盖阈值 | 0.999 | 栅格近似覆盖率 |
 | 命名 | `{FID}_{YYYYMM}.tif` | YYYYMM 取 image_date 前 7 位去连字符,**6 位**,勿用 8 位 |
@@ -87,4 +87,4 @@ KML/矢量 → ①解析多边形(fid+bbox) → ②bbox 外扩缓冲 → ③avai
 | `scripts/batch_latest.py` | 最新一期批量(565 矿实测 28 min) |
 | `scripts/batch_3periods.py` | 三窗口历史分期批量(50 矿×3 期实测 25 min) |
 
-使用:改脚本顶部 CONFIG 区(工具路径、输出目录、KML/JSON 输入),`python batch_latest.py` 即可;中断后 `python batch_latest.py --retry` 只补缺失。管线已验证两组交付:江西 50 矿×3 期(150 幅)、云南 565 矿最新一期(565 幅,零缺失)。
+使用:改脚本顶部 CONFIG 区(工具路径、输出目录、KML/JSON 输入),`python batch_latest.py` 即可;中断后 `python batch_latest.py --retry` 只补失败/缺失。回归测试:`python -m unittest discover -s tests -p "test_*.py"`(离线可跑,覆盖 retry 选择/选期规则/KML 解析/地理配准门)。管线已验证两组交付:江西 50 矿×3 期(150 幅)、云南 565 矿最新一期(565 幅,零缺失)。

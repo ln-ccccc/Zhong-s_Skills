@@ -4,6 +4,7 @@ import os
 import sys
 import tempfile
 import unittest
+import unittest.mock
 from datetime import date
 
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), "..", "scripts"))
@@ -86,6 +87,58 @@ class TestGeoTiffRoundtrip(unittest.TestCase):
 class TestDynamicMaxDate(unittest.TestCase):
     def test_default_max_date_is_today(self):
         self.assertEqual(default_max_date(), date.today().strftime("%Y/%m/%d"))
+
+
+class TestDownloadGeorefGate(unittest.TestCase):
+    """下载 georef 门 fail-closed:缺 geotag / 范围偏离都必须失败,不许带病交付"""
+
+    BBOX = (100.0, 30.0, 100.1, 30.1)
+
+    @staticmethod
+    def _fake_run(plant):
+        """返回 mock 的 gehi_utils.run:把夹具 tif 写到 -o 指定的 tmp 路径"""
+        from types import SimpleNamespace
+        import tifffile
+
+        def _run(args, timeout=900):
+            tmp = args[args.index("-o") + 1]
+            plant(tmp)
+            return SimpleNamespace(returncode=0, stdout="", stderr="")
+        return _run
+
+    def _aligned_z18(self, tmp, shift=0.0):
+        # 1000x1000 px, 0.0001°/px, 精确覆盖 bbox;shift=西移/南移扰动(单位:°)
+        # 随机内容保证文件体积过 download 的 >10KB 最小检查
+        rng = np.random.default_rng(7)
+        arr = rng.integers(0, 255, (1000, 1000, 3), dtype=np.uint8)
+        write_geotiff(arr, tmp, gsd=(0.0001, 0.0001),
+                      corner_lonlat=(self.BBOX[0] + shift, self.BBOX[3] - shift))
+
+    def _plain_z18(self, tmp):
+        import tifffile
+        rng = np.random.default_rng(7)
+        tifffile.imwrite(tmp, rng.integers(0, 255, (1000, 1000, 3), dtype=np.uint8),
+                         photometric="rgb")
+
+    def _download(self, plant):
+        import gehi_utils
+        out = os.path.join(tempfile.mkdtemp(), "out.tif")
+        with unittest.mock.patch.object(gehi_utils, "run", side_effect=self._fake_run(plant)):
+            return gehi_utils.download(self.BBOX, "2024-06-01", out)
+
+    def test_aligned_source_passes_and_output_written(self):
+        ok, err = self._download(lambda tmp: self._aligned_z18(tmp))
+        self.assertTrue(ok, err)
+
+    def test_offset_source_fails(self):
+        ok, err = self._download(lambda tmp: self._aligned_z18(tmp, shift=0.05))  # 偏 5 px > 容差 4
+        self.assertFalse(ok)
+        self.assertIn("georef mismatch", err)
+
+    def test_missing_geotags_fail_closed(self):
+        ok, err = self._download(self._plain_z18)
+        self.assertFalse(ok)
+        self.assertIn("missing source georeference", err)
 
 
 if __name__ == "__main__":

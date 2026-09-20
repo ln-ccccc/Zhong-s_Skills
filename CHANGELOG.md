@@ -4,6 +4,22 @@
 
 ## [Unreleased]
 
+### high-intensity-testing
+
+- **修复 preflight 区间降级(P1)**:`--from/--to` 此前只被 OCR 路径消费,fallback 只查工作区——干净工作区时已提交的分支变更完全漏掉。现在 fallback 按 OCR 同语义取 `merge-base(from,to)..to` 的 range diff(附回归墓碑测试 `test_range_diff_without_ocr_finds_committed_change`)。
+- **range 模式统一走委托(P1)**:`ocr delegate preview --from/--to`,不再调 `ocr review`(后者跑 OCR 自带 LLM 管线,违背"OCR 选文件/规则、宿主 agent 做评审"的分工)。
+- **工作区文件面补齐 untracked(P1)**:fallback 现为 `git diff HEAD ∪ git diff --cached ∪ git ls-files --others --exclude-standard`,与 OCR workspace review 语义对齐。
+- **preflight notes 合并**:降级时保留 OCR 失败原因,不再被 fallback 的 notes 覆盖(测试抓出)。
+- **跨运行时泛化**:六步法第 1 步"分治"的本质改为**独立审查遍(pass)**——支持子代理则并行,不支持则顺序多遍(契约→数据流→git 考古→对抗),遍间重置上下文。
+- 新增 `evals/cases.jsonl`(可执行触发判定样例 12 条)与 `tests/`(preflight 回归 9 项);新增 CI(`.github/workflows/ci.yml`:双套件单测 + py_compile + evals 格式 + preflight 冒烟 + skills-ref 校验 best-effort)。
+
+### mine-imagery-gehi
+
+- **SKILL.md 与实现对齐(P2)**:GSD 描述改为 bbox 推导(`xres=(east-west)/width, yres=(north-south)/height`),原 `1.0729e-05` 常量降级为名义参考值;补 georef 门(fail-closed)与 KML 守卫描述——修复文档漂移(CHANGELOG/代码/测试已更新而 SKILL.md 未同步,违反自身 T26 原则)。
+- **GeoTIFF QA 改 fail-closed(P2)**:源无 geotag 时不再放行,判 `missing source georeference` 失败——"图像能看 ≠ 空间有效",多时相变化检测不容未验证配准。
+- **KML FID 唯一性守卫(P2)**:带几何但 FID 为空/重复直接抛错(下游以 FID 为 manifest 键与文件名,重复会静默覆盖);附 `test_empty_fid_rejected` / `test_duplicate_fid_rejected`。
+- 测试增至 31 项(新增下载 georef 门三态:对齐通过/偏离失败/缺 geotag 失败)。
+
 ## [2026-09-20]
 
 ### high-intensity-testing
