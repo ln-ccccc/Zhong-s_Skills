@@ -21,12 +21,20 @@ OUT_DIR = os.path.join(HERE, "imagery_latest")
 BUFFER_M = 250.0
 FID_FIELDS = ("fid", "shi", "xian")   # 与 mines.json 里的键对应
 
-os.chdir(HERE)
-os.makedirs(OUT_DIR, exist_ok=True)
-MINES = json.load(open(MINES_JSON, encoding="utf-8"))
+
+def select_todo(mines, rows, only_missing):
+    """--retry 时只保留『失败/缺失』: status 以 OK 开头(OK/OK_incomplete)视为已成功跳过,
+    FAIL_* 与 manifest 里没有的(缺失)重做。全量时返回全部。"""
+    if not only_missing:
+        return list(mines)
+    return [m for m in mines
+            if not rows.get(str(m["fid"]), {}).get("status", "").startswith("OK")]
 
 
 def main(only_missing=False):
+    os.chdir(HERE)
+    os.makedirs(OUT_DIR, exist_ok=True)
+    mines = json.load(open(MINES_JSON, encoding="utf-8"))
     manifest = os.path.join(OUT_DIR, "manifest.csv")
     cols = ["fid", "image_date", "coverage", "status", *FID_FIELDS[1:]]
     rows = {}
@@ -35,8 +43,7 @@ def main(only_missing=False):
             for row in csv.DictReader(f):
                 rows[row["fid"]] = row
 
-    todo = [m for m in MINES
-            if not only_missing or rows.get(str(m["fid"]), {}).get("status", "").startswith(("OK",))]
+    todo = select_todo(mines, rows, only_missing)
     log = open(os.path.join(OUT_DIR, "batch.log"), "a", encoding="utf-8")
 
     def P(*a):
@@ -51,7 +58,7 @@ def main(only_missing=False):
             w.writeheader()
             w.writerows(sorted(rows.values(), key=lambda r: int(r["fid"])))
 
-    P(f"=== start {time.strftime('%F %T')} todo={len(todo)}/{len(MINES)} ===")
+    P(f"=== start {time.strftime('%F %T')} todo={len(todo)}/{len(mines)} ===")
     t0 = time.time()
     nerr = 0
     for k, m in enumerate(todo, 1):
