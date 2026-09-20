@@ -88,7 +88,7 @@ ocr ... --format json --output result.json        # agent 消费:逐条映射到
 | 14 | 自动化测试失败时,分得清**产品缺陷还是工具限制**吗? | T16 工具限制隔离 |
 | 15 | 页面内容超过一屏时**能滚动吗**?滚到底内容完整吗? | T17 满屏滚动验证 |
 
-### 6.2 技巧速查(T2–T36)
+### 6.2 技巧速查(T2–T37)
 
 每条 = 失效一句话 + 关键动作一句话。编号 T2–T30 沿用项目 playbook,T31 起为本 skill 新增(T5 未使用)。
 
@@ -143,6 +143,7 @@ ocr ... --format json --output result.json        # agent 消费:逐条映射到
 | T34 | 离线构建缓存滞后 | lock 新增依赖而离线缓存没有,`npm ci --offline` 直接失败——败在缓存不在代码 | 离线环境新增依赖:补缓存或仓库外目录安装,与仓库解耦 |
 | T35 | 跨 shell 静默改写 | Git Bash 改写 POSIX 路径参数、双引号吞 `$` 变量、调用间 cwd 重置、`\| head` 以 SIGPIPE 杀长驻进程 | 跨 shell 先跑只读变体确认参数到达形态;Git Bash 对 docker 路径加 MSYS_NO_PATHCONV=1;长驻进程输出重定向文件 |
 | T36 | 框架上下文不跨线程 | 后台线程用 request/app 上下文代理(Flask current_app 等)运行期才炸;单测 fake 掉上下文时假绿 | 异步/线程化验证用真实多线程/多 worker 车辆;后台代码显式拿 app 引用而非上下文代理 |
+| T37 | Dockerfile 内联命令引号剥离 | RUN 里嵌套引号的 python -c/shell 命令被 shell 层剥引号,构建绿、运行行为错 | 复杂逻辑写成仓库内脚本 COPY 后执行;必须内联时容器内实测输出,不拿 build 绿当对 |
 
 ## 七、验收与报告标准
 
