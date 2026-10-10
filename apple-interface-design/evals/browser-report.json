@@ -1,0 +1,152 @@
+{
+  "date": "2026-10-10T03:08:59.596Z",
+  "headed": true,
+  "platform": "win32",
+  "viewport": {
+    "width": 1440,
+    "height": 900
+  },
+  "checks": [
+    {
+      "name": "ID唯一，初始内容完整且没有外部请求",
+      "passed": true
+    },
+    {
+      "name": "真实刷新触发busy并完成；重复刷新保留最后一次结果",
+      "passed": true
+    },
+    {
+      "name": "连续26次快切，加载期间可切换且旧请求不回写",
+      "passed": true
+    },
+    {
+      "name": "失败有可读原因，重试恢复正确视图",
+      "passed": true
+    },
+    {
+      "name": "详情反复开关、Esc回焦；隐藏面板不参与Tab序列",
+      "passed": true
+    },
+    {
+      "name": "12次面板运动中断后，最后一次展开/收起意图一致",
+      "passed": true
+    },
+    {
+      "name": "按钮按下有视觉反馈，释放恢复",
+      "passed": true
+    },
+    {
+      "name": "运行时系统/手动减少动态效果保留业务状态",
+      "passed": true
+    },
+    {
+      "name": "系统减少透明度/增强对比、手动实色及强制降级",
+      "passed": true
+    },
+    {
+      "name": "系统强制颜色模式仍有焦点、选中和业务内容",
+      "passed": true
+    },
+    {
+      "name": "两期年份与影像关联，SVG保持统一缩放比例",
+      "passed": true
+    },
+    {
+      "name": "双主题三种材质截图；均衡/实色保守文本对比≥4.5:1",
+      "passed": true
+    },
+    {
+      "name": "1440/1920窗口、200% CSS缩放及720×450等效视口无裁切/图例遮挡",
+      "passed": true
+    },
+    {
+      "name": "三材质连续操作期间rAF采样（测量，不作为固定帧率承诺）",
+      "passed": true
+    }
+  ],
+  "materials": [
+    {
+      "theme": "light",
+      "preset": "light",
+      "filter": "blur(10px)",
+      "background": "rgba(255, 255, 255, 0.65)",
+      "textMinimum": 6.283496340725733,
+      "secondaryMinimum": 2.607560981910075
+    },
+    {
+      "theme": "light",
+      "preset": "balanced",
+      "filter": "blur(18px)",
+      "background": "rgba(255, 255, 255, 0.9)",
+      "textMinimum": 12.23532037577673,
+      "secondaryMinimum": 5.077482707558929
+    },
+    {
+      "theme": "light",
+      "preset": "solid",
+      "filter": "none",
+      "background": "rgb(255, 255, 255)",
+      "textMinimum": 15.341411342121155,
+      "secondaryMinimum": 6.366465969569967
+    },
+    {
+      "theme": "dark",
+      "preset": "light",
+      "filter": "blur(10px)",
+      "background": "rgba(25, 38, 48, 0.7)",
+      "textMinimum": 5.190242435544929,
+      "secondaryMinimum": 3.2592291412076633
+    },
+    {
+      "theme": "dark",
+      "preset": "balanced",
+      "filter": "blur(18px)",
+      "background": "rgba(25, 38, 48, 0.88)",
+      "textMinimum": 9.55992639263396,
+      "secondaryMinimum": 6.003185992486601
+    },
+    {
+      "theme": "dark",
+      "preset": "solid",
+      "filter": "none",
+      "background": "rgb(25, 38, 48)",
+      "textMinimum": 13.900066315875499,
+      "secondaryMinimum": 8.728590574336824
+    }
+  ],
+  "errors": [],
+  "limitations": [
+    "rAF间隔是同机页面采样，不是GPU帧时间或生产60fps保证。",
+    "黑白底色合成检查不包含渐变、混合模式及任意真实影像。",
+    "无blur使用演示的强制降级入口；未模拟一个真正不支持blur的浏览器。",
+    "数据读取为模拟；未覆盖Safari、生产网络、投影/LED实机。"
+  ],
+  "browser": "154.0.4258.53",
+  "frames": [
+    {
+      "preset": "light",
+      "samples": 313,
+      "durationMs": 2201.199999999997,
+      "p95Ms": 7,
+      "maxMs": 34.700000000004366,
+      "over50Ms": 0
+    },
+    {
+      "preset": "balanced",
+      "samples": 317,
+      "durationMs": 2201.300000000003,
+      "p95Ms": 7,
+      "maxMs": 7.200000000004366,
+      "over50Ms": 0
+    },
+    {
+      "preset": "solid",
+      "samples": 317,
+      "durationMs": 2201.2000000000044,
+      "p95Ms": 7,
+      "maxMs": 7.100000000005821,
+      "over50Ms": 0
+    }
+  ],
+  "passed": true
+}

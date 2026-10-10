@@ -1,0 +1,51 @@
+{
+  "date": "2026-10-10T04:02:09.377Z",
+  "headed": false,
+  "platform": "win32",
+  "checks": [
+    {
+      "name": "初始收藏、唯一ID与自包含",
+      "passed": true
+    },
+    {
+      "name": "窄视口布局与阅读入口命中区域",
+      "passed": true
+    },
+    {
+      "name": "搜索范围、空态与阅读返回上下文",
+      "passed": true
+    },
+    {
+      "name": "连续移除、逐次撤销与空收藏恢复",
+      "passed": true
+    },
+    {
+      "name": "连续24次阅读切换与真实收藏反馈",
+      "passed": true
+    },
+    {
+      "name": "模态键盘范围、Esc回焦与取消草稿",
+      "passed": true
+    },
+    {
+      "name": "错误位置与输入保留、保存期间按钮禁用与完成状态",
+      "passed": true
+    },
+    {
+      "name": "更大正文、动态偏好与独立深色主题",
+      "passed": true
+    },
+    {
+      "name": "文本放大与窄视口设置、阅读排版",
+      "passed": true
+    }
+  ],
+  "errors": [],
+  "limitations": [
+    "仅桌面浏览器模拟窄视口，未验证手机硬件、Safari或读屏。",
+    "收藏和保存为内存模拟；未验证服务端、浏览器历史导航或邮件发送。",
+    "放大使用CSS zoom:2，另测390×844窄视口；不能覆盖原生浏览器缩放的一切行为。"
+  ],
+  "browser": "145.0.7632.6",
+  "passed": true
+}

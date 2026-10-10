@@ -1,0 +1,4 @@
+interface:
+  display_name: "Apple 通用界面设计"
+  short_description: "凝练Apple设计思想，统筹内容、字体、导航、反馈、可访问性与液态玻璃"
+  default_prompt: "使用 $apple-interface-design 按产品目标规划内容、视觉、交互和可访问性，按需配套设计Liquid Glass与motion，并验证关键任务。"

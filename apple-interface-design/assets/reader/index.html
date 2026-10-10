@@ -1,0 +1,134 @@
+<!doctype html>
+<html lang="zh-CN" data-theme="light">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>拾页 · 留一点时间给阅读</title>
+<style>
+:root{color-scheme:light;--bg:#f7f6f2;--surface:#fffefa;--ink:#262b2c;--muted:#606b6c;--edge:#d9ddd8;--accent:#245e60;--soft:#e7efea;--danger:#a12c29;--glass:rgba(255,254,250,.85);--shadow:0 12px 35px #243b3117}
+html[data-theme=dark]{color-scheme:dark;--bg:#151b1b;--surface:#1e2727;--ink:#e9ece6;--muted:#a7b4b1;--edge:#3e4d49;--accent:#a0d7c9;--soft:#293f38;--danger:#ffb5ac;--glass:rgba(30,39,39,.9);--shadow:0 12px 35px #0005}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font:1rem/1.6 -apple-system,BlinkMacSystemFont,"Segoe UI","Microsoft YaHei",sans-serif}
+button,input,select{font:inherit}button{cursor:pointer;border:1px solid transparent;background:transparent;color:inherit;border-radius:10px;padding:10px 14px;min-height:44px;transition:background 140ms,transform 140ms}
+button:hover{background:var(--soft)}button:active{transform:scale(.98)}button:disabled{cursor:wait;opacity:.65}button:focus-visible,input:focus-visible,select:focus-visible,a:focus-visible{outline:3px solid var(--accent);outline-offset:4px}
+[hidden]{display:none!important}.primary{background:var(--accent);color:var(--surface);font-weight:600}.primary:hover{filter:brightness(.93);background:var(--accent)}.quiet{border-color:var(--edge)}.danger{color:var(--danger)}
+.wrap{max-width:1120px;margin:auto;padding:0 40px}.top{display:flex;align-items:center;justify-content:space-between;gap:20px;padding-block:26px;border-bottom:1px solid var(--edge)}
+.brand{font-weight:700;font-size:1.4rem;letter-spacing:.12em;display:flex;gap:12px;align-items:center}.mark{width:29px;height:32px;border:2px solid var(--accent);border-radius:5px 10px 10px 5px;position:relative}.mark:after{content:"";position:absolute;left:6px;top:0;bottom:0;border-left:2px solid var(--accent)}
+.toolbar{display:flex;gap:4px}.eyebrow{font-size:.8rem;letter-spacing:.1em;color:var(--accent);font-weight:600}.hero{padding:64px 0 36px}.hero h1{font-size:clamp(2rem,4.3vw,3.5rem);letter-spacing:-.045em;font-weight:600;line-height:1.2;margin:12px 0 18px}.hero p{color:var(--muted);max-width:36em;margin:0}
+.demo{margin:0 0 30px;color:var(--muted);font-size:.85rem;border-left:2px solid var(--edge);padding-left:12px}.list-controls{display:flex;align-items:end;justify-content:space-between;gap:24px;border-bottom:1px solid var(--edge);padding-bottom:18px}
+.filters{display:flex;gap:6px}.filters button[aria-pressed=true]{background:var(--soft);color:var(--accent);font-weight:600}.search-group{width:270px;max-width:100%}label{display:block;font-size:.9rem;font-weight:600;margin-bottom:6px}
+input[type=text],input[type=email],select{width:100%;border:1px solid var(--edge);background:var(--surface);color:var(--ink);padding:11px 12px;border-radius:9px;min-height:44px}input[type=checkbox]{width:19px;height:19px;accent-color:var(--accent)}
+.list-heading{display:flex;justify-content:space-between;align-items:center;margin:28px 0 8px}.list-heading h2{font-size:1rem;font-weight:500;margin:0}.list-heading span{color:var(--muted);font-size:.85rem}
+.entry{display:grid;grid-template-columns:100px 1fr auto;gap:30px;padding:28px 0;border-bottom:1px solid var(--edge);align-items:center}.art{height:110px;border-radius:4px;background:var(--soft);display:grid;place-items:center;color:var(--accent);overflow:hidden}.art svg{width:75px;height:90px}
+.entry h3{font-size:1.3rem;line-height:1.4;margin:6px 0 7px;font-weight:600}.read-link{display:block;padding:0;text-align:left;border-radius:3px;min-height:44px}.read-link:hover{background:transparent;color:var(--accent)}.entry p{margin:0;color:var(--muted);font-size:.95rem;max-width:41em}.meta{font-size:.8rem;color:var(--muted)}.entry-actions{display:flex;flex-direction:column;align-items:flex-end;gap:4px}.saved-tag{font-size:.75rem;color:var(--accent)}
+.empty{padding:64px 0;text-align:center}.empty h3{font-size:1.35rem}.empty p{color:var(--muted)}.foot{padding:42px 0 110px;color:var(--muted);font-size:.8rem;display:flex;justify-content:space-between;gap:16px}
+.reader-toolbar{display:flex;justify-content:space-between;gap:12px;padding:24px 0}.reading{max-width:700px;margin:28px auto 80px}.reading h1{font-size:clamp(2rem,4vw,3rem);line-height:1.28;letter-spacing:-.03em;margin:16px 0 20px}.reading .intro{font-size:1.2rem;color:var(--muted);margin:28px 0 36px}.prose{font-family:Georgia,"Songti SC","SimSun",serif;font-size:1.13rem;line-height:1.95}.prose h2{font:600 1.45rem/1.5 -apple-system,BlinkMacSystemFont,"Microsoft YaHei",sans-serif;margin:42px 0 16px}.prose p{margin:0 0 24px}.prose blockquote{border-left:3px solid var(--accent);margin:32px 0;padding:4px 0 4px 24px;color:var(--muted)}
+.glass{background:var(--surface);border:1px solid var(--edge);box-shadow:var(--shadow)}@supports((backdrop-filter:blur(1px)) or (-webkit-backdrop-filter:blur(1px))){.glass{background:var(--glass);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px)}}
+.notice{position:fixed;bottom:max(22px,env(safe-area-inset-bottom));left:50%;transform:translateX(-50%);border-radius:16px;padding:10px 12px 10px 20px;max-width:calc(100% - 28px);display:flex;gap:12px;align-items:center;z-index:3;font-size:.9rem}.notice p{margin:0}.notice button{flex-shrink:0;color:var(--accent);font-weight:600}
+dialog{background:var(--surface);color:var(--ink);border:1px solid var(--edge);border-radius:20px;width:480px;max-width:calc(100% - 28px);padding:28px;box-shadow:0 24px 80px #0004;max-height:calc(100dvh - 32px);overflow:auto}dialog::backdrop{background:#10191870}dialog h2{font-size:1.6rem;margin:0 0 5px}dialog p{color:var(--muted);font-size:.9rem;margin:0 0 24px}fieldset{border:0;padding:0;margin:0}.field{margin-bottom:20px}.help{display:block;color:var(--muted);font-size:.8rem;margin:6px 0}.error{color:var(--danger);font-size:.85rem;margin:6px 0 0}input[aria-invalid=true]{border:2px solid var(--danger)}.check{display:flex;gap:10px;align-items:center;margin:16px 0;font-weight:400}.dialog-actions{display:flex;justify-content:flex-end;gap:8px;margin-top:22px}.save-note{min-height:1.6em;font-size:.85rem;color:var(--muted);margin:14px 0 0}
+.enter{animation:appear 180ms ease-out}@keyframes appear{from{opacity:.6;transform:translateY(6px)}to{opacity:1;transform:translateY(0)}}html[data-motion=reduce] *,html[data-motion=reduce] *:before,html[data-motion=reduce] *:after{animation:none!important;transition:none!important;scroll-behavior:auto!important}
+html[data-solid=true] .glass{background:var(--surface);backdrop-filter:none;-webkit-backdrop-filter:none}@media(prefers-reduced-motion:reduce){*,*:before,*:after{animation:none!important;transition:none!important;scroll-behavior:auto!important}}
+@media(prefers-reduced-transparency:reduce),(prefers-contrast:more){.glass{background:var(--surface);backdrop-filter:none;-webkit-backdrop-filter:none}}@media(forced-colors:active){button,input,select{border:1px solid ButtonText}.glass{background:Canvas;color:CanvasText;backdrop-filter:none}.mark{border-color:CanvasText}}
+@media(max-width:650px){.wrap{padding:0 22px}.top{padding-block:18px;gap:6px}.brand{font-size:1.15rem;gap:8px}.toolbar button{padding:9px 10px;font-size:.9rem}.hero{padding:42px 0 26px}.list-controls{align-items:stretch;flex-direction:column;gap:18px}.search-group{width:100%}.filters button{flex:1;padding:10px}.entry{grid-template-columns:1fr auto;gap:12px;padding:24px 0}.art{display:none}.entry h3{font-size:1.15rem}.entry p{font-size:.9rem}.entry-actions{align-self:start;padding-top:18px}.entry-actions button{padding:10px}.foot{flex-direction:column}.reading{margin-top:18px}.reading .intro{font-size:1.1rem}.notice{width:max-content;padding-left:14px;gap:8px}.notice p{font-size:.85rem}dialog{padding:24px}}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header class="top"><div class="brand"><span class="mark" aria-hidden="true"></span>拾页</div><div class="toolbar"><button id="theme" aria-label="切换到深色外观">深色</button><button id="settings-open" class="quiet">阅读设置</button></div></header>
+<main id="library">
+<section class="hero"><span class="eyebrow">YOUR QUIET CORNER</span><h1>留一点时间，<br>给值得读的文字。</h1><p>把偶然遇见的好文章放在这里。放慢一点，从一页开始。</p></section>
+<p class="demo">独立演示 · 文章均为虚构，收藏与设置仅保存在当前页面内存中，刷新后恢复。</p>
+<div class="list-controls"><nav class="filters" aria-label="文章范围"><button data-filter="saved" aria-pressed="true">我的收藏</button><button data-filter="all" aria-pressed="false">全部文章</button></nav><div class="search-group"><label for="search">搜索当前列表</label><input id="search" type="text" placeholder="标题、主题或作者" autocomplete="off"></div></div>
+<div class="list-heading"><h2 id="list-title">我的收藏</h2><span id="count" role="status" aria-live="polite"></span></div>
+<div id="articles" aria-labelledby="list-title"></div>
+<footer class="foot"><span>为专注留白，为好文字留一个位置。</span><span>拾页 / 虚构阅读收藏产品</span></footer>
+</main>
+<main id="reader" hidden><div class="reader-toolbar"><button id="back" class="quiet">← 返回收藏列表</button><button id="reader-save" class="quiet"></button></div><article class="reading" id="reading-content"></article></main>
+</div>
+<div id="notice" class="notice glass" hidden><p id="message" role="status" aria-live="polite" aria-atomic="true"></p><button id="undo" hidden>撤销移除</button><button id="notice-close" aria-label="收起反馈">收起</button></div>
+<dialog id="settings-dialog" aria-labelledby="settings-title" aria-describedby="settings-description">
+<h2 id="settings-title">让阅读更合心意</h2><p id="settings-description">设置仅用于这次演示。关闭窗口不会保存未提交的输入。</p>
+<form id="settings-form" novalidate><fieldset id="settings-fields"><div class="field"><label for="email">阅读摘要邮箱</label><input id="email" type="email" autocomplete="email" value="reader@example.com" aria-describedby="email-help email-error" required><span id="email-help" class="help">请填写完整邮箱，例如 reader@example.com。演示不会发送邮件。</span><p id="email-error" class="error" hidden></p></div>
+<div class="field"><label for="text-size">正文字号</label><select id="text-size"><option value="normal">舒适</option><option value="large">更大</option></select></div>
+<label class="check"><input id="reduce-motion" type="checkbox">减少动态效果</label><label class="check"><input id="solid-material" type="checkbox">减少透明度（使用实色控件）</label></fieldset>
+<p id="save-status" class="save-note" role="status" aria-live="polite"></p><div class="dialog-actions"><button id="settings-cancel" type="button">取消</button><button id="save-settings" type="submit" class="primary">保存设置</button></div></form>
+</dialog>
+<script>
+'use strict';
+const $ = selector => document.querySelector(selector);
+const articles = [
+ {id:'a1',topic:'生活观察',title:'在一座城市里，练习慢下来',author:'林岸',minutes:6,date:'2026年10月8日',intro:'从一条不赶时间的路开始，重新认识每天经过的地方。',shape:'arch'},
+ {id:'a2',topic:'设计与日常',title:'一把椅子，和它留给人的空间',author:'许禾',minutes:8,date:'2026年10月6日',intro:'好的设计不急着被看见，它先让日常生活变得舒适。',shape:'chair'},
+ {id:'a3',topic:'自然笔记',title:'窗前的树，是一本缓慢的日历',author:'陈朔',minutes:5,date:'2026年10月3日',intro:'叶子还没有落下的时候，秋天已经悄悄改变了光线。',shape:'tree'},
+ {id:'a4',topic:'阅读随想',title:'读完以后，给自己一段空白',author:'林岸',minutes:7,date:'2026年9月29日',intro:'不急着开始下一篇，也许才能听见文字留下的回声。',shape:'arch'}
+];
+let saved=['a1','a2','a3'], undoStack=[], filter='saved', current=null, listScroll=0, returnId=null, saving=false;
+let settings={email:'reader@example.com',size:'normal',motion:false,solid:false};
+Object.defineProperty(window,'readerState',{get:()=>({saved:[...saved],undoDepth:undoStack.length,filter,query:$('#search').value,current,settings:{...settings},saving})});
+const escapeHTML=value=>String(value).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+function art(shape){
+ const paths={arch:'<path d="M14 78V38a24 24 0 0 1 48 0v40M25 78V39a13 13 0 0 1 26 0v39M8 78h60"/>',chair:'<path d="M22 12v42h34V12M22 37h34M16 54h46M22 54l-6 28M56 54l6 28M29 12v25M48 12v25"/>',tree:'<path d="M38 82V20M38 54L16 32M38 43l22-22M38 67l23-16M38 29L24 15"/><path d="M11 82h54"/>'};
+ return `<svg viewBox="0 0 76 94" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round">${paths[shape]}</svg>`;
+}
+function renderList(){
+ const query=$('#search').value.trim().toLowerCase();
+ const source=filter==='saved'?saved.map(id=>articles.find(a=>a.id===id)):articles;
+ const visible=source.filter(a=>(a.title+a.topic+a.author).toLowerCase().includes(query));
+ $('#count').textContent=`${visible.length} 篇文章`;$('#list-title').textContent=filter==='saved'?'我的收藏':'全部文章';
+ document.querySelectorAll('[data-filter]').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.filter===filter)));
+ $('#articles').innerHTML=visible.length?visible.map(a=>`<article class="entry" data-id="${a.id}"><div class="art">${art(a.shape)}</div><div><span class="eyebrow">${a.topic}</span><h3><button class="read-link" data-read="${a.id}">${a.title}</button></h3><p>${a.intro}</p><span class="meta">${a.author} · ${a.minutes} 分钟阅读</span></div><div class="entry-actions">${saved.includes(a.id)?`<span class="saved-tag">已收藏</span><button class="danger" data-delete="${a.id}" aria-label="移除收藏：${a.title}">移除</button>`:`<button class="quiet" data-add="${a.id}" aria-label="收藏：${a.title}">收藏</button>`}</div></article>`).join(''):`<div class="empty"><h3>${query?'没有找到匹配的文章':'收藏夹暂时空了'}</h3><p>${query?'试试更短的关键词，或清除搜索。':'去全部文章里，找一篇想读的文字。'}</p><button class="quiet" id="empty-action">${query?'清除搜索':'浏览全部文章'}</button></div>`;
+}
+function announce(text){$('#message').textContent=text;$('#notice').hidden=false;$('#undo').hidden=!undoStack.length;$('#notice-close').hidden=!!undoStack.length;}
+function updateReaderSave(){const isSaved=saved.includes(current);$('#reader-save').textContent=isSaved?'移除收藏':'收藏文章';$('#reader-save').classList.toggle('danger',isSaved);}
+function remove(id){
+ const index=saved.indexOf(id);if(index<0)return;
+ undoStack.push({id,index});saved.splice(index,1);renderList();if(current)updateReaderSave();
+ announce(`已移除《${articles.find(a=>a.id===id).title}》`);
+}
+function add(id){if(!saved.includes(id)){saved.push(id);renderList();if(current)updateReaderSave();announce('文章已加入收藏。');}}
+$('#undo').onclick=()=>{
+ const item=undoStack.pop();if(!item)return;if(!saved.includes(item.id))saved.splice(Math.min(item.index,saved.length),0,item.id);
+ renderList();if(current)updateReaderSave();announce(`已恢复《${articles.find(a=>a.id===item.id).title}》`);
+ if(!undoStack.length)$('#notice-close').focus({preventScroll:true});
+};
+$('#notice-close').onclick=()=>{
+ $('#notice').hidden=true;const target=current?$('#reader-save'):document.querySelector('[data-read]')||$('#search');target.focus({preventScroll:true});
+};
+function openArticle(id){
+ const a=articles.find(item=>item.id===id);if(!a)return;listScroll=window.scrollY;returnId=id;current=id;
+ $('#library').hidden=true;$('#reader').hidden=false;$('#back').textContent=filter==='saved'?'← 返回收藏列表':'← 返回全部文章';
+ $('#reading-content').innerHTML=`<span class="eyebrow">${a.topic} / 虚构文章</span><h1 tabindex="-1">${a.title}</h1><div class="meta">${a.author} · ${a.date} · 约 ${a.minutes} 分钟</div><p class="intro">${a.intro}</p><div class="prose"><p>早上走出门时，我决定收起手机。街道没有发生什么特别的事：有人打开店门，有人把一盆植物搬到光里，远处传来很轻的脚步声。那些平常被忽略的细节，忽然有了自己的顺序。</p><p>我们常常把生活安排得很满。每一段路都有目的，每一刻空闲都有下一件事在等待。但这一次，我想给眼前的事物多一点时间，不着急解释，也不着急离开。</p><h2>从一个小小的停顿开始</h2><p>改变并不总需要一个宏大的计划。它可能是坐下来时不立刻打开屏幕，可能是读完一段话以后，先看一眼窗外。留出一点空白，注意力便有机会回到自己身边。</p><blockquote>值得保留的，往往是那些让我们重新注意到日常的瞬间。</blockquote><p>后来我发现，缓慢并不是停止。它只是让我看清正在做什么，为什么做，以及这一刻真正想把时间交给谁。当我们允许自己不那么匆忙，熟悉的事物也会显出新的样子。</p><h2>把这份从容带回日常</h2><p>回家的路上，城市还是那座城市。我没有带回新的答案，只记住了门口的一片树影。它在风里动了一下，然后安静下来。</p><p>也许明天仍然会忙碌，但至少今天，我认真看过这一页。</p></div><p class="demo">本文为界面测试创作的虚构文本，不代表真实作者或出版物。</p>`;
+ $('#reading-content').classList.remove('enter');void $('#reading-content').offsetWidth;$('#reading-content').classList.add('enter');updateReaderSave();window.scrollTo(0,0);$('#reading-content h1').focus({preventScroll:true});
+}
+$('#back').onclick=()=>{current=null;$('#reader').hidden=true;$('#library').hidden=false;renderList();window.scrollTo(0,listScroll);(document.querySelector(`[data-read="${returnId}"]`)||$('#search')).focus({preventScroll:true});};
+$('#reader-save').onclick=()=>saved.includes(current)?remove(current):add(current);
+$('#articles').onclick=e=>{
+ const read=e.target.closest('[data-read]'),del=e.target.closest('[data-delete]'),addButton=e.target.closest('[data-add]');
+ if(read)openArticle(read.dataset.read);
+ if(del){const id=del.dataset.delete;remove(id);(document.querySelector(`[data-delete="${id}"]`)||document.querySelector('[data-read]')||$('#search')).focus({preventScroll:true});}
+ if(addButton){const id=addButton.dataset.add;add(id);document.querySelector(`[data-delete="${id}"]`)?.focus({preventScroll:true});}
+ if(e.target.id==='empty-action'){if($('#search').value)$('#search').value='';else filter='all';renderList();$('#search').focus();}
+};
+$('#search').addEventListener('input',e=>{if(!e.isComposing)renderList();});$('#search').addEventListener('compositionend',renderList);
+document.querySelectorAll('[data-filter]').forEach(b=>b.onclick=()=>{filter=b.dataset.filter;renderList();});
+$('#theme').onclick=()=>{const dark=document.documentElement.dataset.theme!=='dark';document.documentElement.dataset.theme=dark?'dark':'light';$('#theme').textContent=dark?'浅色':'深色';$('#theme').setAttribute('aria-label',dark?'切换到浅色外观':'切换到深色外观');};
+const dialog=$('#settings-dialog');let modalTrigger=null;
+$('#settings-open').onclick=()=>{
+ if(saving)return;modalTrigger=document.activeElement;$('#email').value=settings.email;$('#text-size').value=settings.size;$('#reduce-motion').checked=settings.motion;$('#solid-material').checked=settings.solid;
+ $('#email-error').hidden=true;$('#email').removeAttribute('aria-invalid');$('#save-status').textContent='';dialog.showModal();$('#email').focus();
+};
+$('#settings-cancel').onclick=()=>dialog.close();dialog.addEventListener('close',()=>{(modalTrigger?.disabled?$('#theme'):modalTrigger)?.focus({preventScroll:true});});
+$('#email').addEventListener('input',()=>{if($('#email').getAttribute('aria-invalid')==='true'&&$('#email').validity.valid){$('#email-error').hidden=true;$('#email').removeAttribute('aria-invalid');}});
+$('#settings-form').onsubmit=e=>{
+ e.preventDefault();if(saving)return;const email=$('#email');email.value=email.value.trim();
+ if(!email.validity.valid){$('#email-error').textContent=email.validity.valueMissing?'请输入阅读摘要邮箱。':'邮箱格式不完整，请填写类似 reader@example.com 的地址。';$('#email-error').hidden=false;email.setAttribute('aria-invalid','true');email.focus();$('#save-status').textContent='设置尚未保存，请修正邮箱。';return;}
+ const next={email:email.value,size:$('#text-size').value,motion:$('#reduce-motion').checked,solid:$('#solid-material').checked};
+ saving=true;$('#settings-open').disabled=true;$('#settings-form').setAttribute('aria-busy','true');$('#settings-fields').disabled=true;$('#save-settings').disabled=true;$('#save-settings').textContent='保存中…';$('#save-status').textContent='正在保存到本次演示…';
+ setTimeout(()=>{settings=next;document.documentElement.dataset.motion=settings.motion?'reduce':'normal';document.documentElement.dataset.solid=String(settings.solid);document.documentElement.style.setProperty('--reader-size',settings.size==='large'?'1.35rem':'1.13rem');
+  saving=false;$('#settings-open').disabled=false;$('#settings-form').setAttribute('aria-busy','false');$('#settings-fields').disabled=false;$('#save-settings').disabled=false;$('#save-settings').textContent='保存设置';$('#save-status').textContent='设置已保存。';if(dialog.open)dialog.close();announce('阅读设置已保存到本次演示。');
+ },600);
+};
+renderList();
+</script>
+<style>.prose{font-size:var(--reader-size,1.13rem)}</style>
+</body>
+</html>

@@ -4,6 +4,12 @@
 
 ## [Unreleased]
 
+### apple-interface-design
+
+- 新增跨产品 Apple-inspired 设计 skill：目的与信息层级、字体/色彩/图标、导航/搜索、输入/反馈、模态/恢复、可访问性和平台适配；Liquid Glass 与 motion/layout 配套。
+- 区分 Apple 官方原则、WCAG 对比门槛与 Web 经验参数；包含减少动态效果、减少透明度、实色降级及真实硬件触觉边界。
+- 附独立数据工作台及阅读收藏示例、精选官方/原创案例取舍、材质对比、浏览器回归脚本、触发/压力样例和实测记录；示例全部使用虚构数据，不连接项目业务。
+
 ### high-intensity-testing
 
 - **修复 preflight 区间降级(P1)**:`--from/--to` 此前只被 OCR 路径消费,fallback 只查工作区——干净工作区时已提交的分支变更完全漏掉。现在 fallback 按 OCR 同语义取 `merge-base(from,to)..to` 的 range diff(附回归墓碑测试 `test_range_diff_without_ocr_finds_committed_change`)。

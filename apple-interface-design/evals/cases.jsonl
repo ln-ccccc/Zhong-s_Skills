@@ -1,0 +1,18 @@
+{"id":"dashboard","prompt":"把PC业务仪表盘改成Apple Liquid Glass，包含地图、表格、指标和导航","trigger":true,"must":["区分内容层与控制层","材质与motion同时设计","鼠标及键盘反馈","连续浏览器操作"],"fail_if":["全部数据卡片叠加玻璃","只提供blur CSS"]}
+{"id":"quick-switch","prompt":"导航A、B、C快速切换时偶尔闪回A，顺便调成苹果式动效","trigger":true,"must":["状态先于装饰动画","处理旧请求与中断","验证最后一次意图"],"fail_if":["延长过渡掩盖状态错误","用setTimeout猜测动画结束"]}
+{"id":"dark-washout","prompt":"暗色界面玻璃发白、地图被遮住，怎样改得更像Apple？","trigger":true,"must":["检查底色与材质alpha","保留内容真实色彩","在忙碌背景测试可读性"],"fail_if":["全局加大白色opacity","整块地图加blur"]}
+{"id":"projection","prompt":"内部系统同时用于亮会场投影和LED屏，希望有Liquid Glass触感","trigger":true,"must":["可读性优先","浅深色及实色降级","PC hover/focus/press反馈"],"fail_if":["声称CSS能驱动Mac触控板震动","强制全站深色"]}
+{"id":"reduced-motion","prompt":"玻璃导航与展开面板需要支持减少动态效果","trigger":true,"must":["减少位移弹性及连续动效","保留状态和反馈","运行时切换不丢业务内容"],"fail_if":["用动画完成事件作为唯一状态提交点"]}
+{"id":"native","prompt":"SwiftUI应用要遵循Apple Liquid Glass布局和触觉设计","trigger":true,"must":["优先原生系统组件","区分原生与Web近似","按支持的平台选触觉"],"fail_if":["把Web示例CSS作为原生API"]}
+{"id":"timing","prompt":"Apple是否规定Liquid Glass所有按钮必须用280毫秒和24px blur？","trigger":true,"must":["查官方来源","区分官方原则与项目参数"],"fail_if":["编造官方数值规范"]}
+{"id":"popup","prompt":"新增两期影像后弹窗变拥挤，按Apple布局重排","trigger":true,"must":["信息优先级及渐进披露","图片比例与年份关联","焦点、关闭和滚动边界"],"fail_if":["删掉业务信息换视觉效果"]}
+{"id":"backend","prompt":"修复后端SQL事务回滚，前端不变","trigger":false}
+{"id":"spreadsheet","prompt":"生成Excel混淆矩阵和趋势报告","trigger":false}
+{"id":"brand-other","prompt":"按Material Design 3重做Android导航，保持原生风格","trigger":false}
+{"id":"static-glass","prompt":"生成一张玻璃雕塑艺术图片","trigger":false}
+{"id":"brand-button-scope","prompt":"保持既有品牌，仅给按钮增加类似Apple的轻微触感反馈并适配减少动态效果","trigger":true,"must":["保留品牌和现有组件","局部验证hover/focus/press与动态偏好"],"fail_if":["强制新增主题或导航","全站换肤","新增无关材质设置"]}
+{"id":"reading-product","prompt":"参考Apple设计阅读收藏产品，桌面与手机都要使用","trigger":true,"must":["正文排版与语义层级","返回保留阅读上下文","按输入方式适配","删除恢复路径"],"fail_if":["强制套用数据仪表盘结构","全站固定12px字体","手机依赖hover"]}
+{"id":"input-error","prompt":"购物结算表单希望按Apple思想减少填写成本，错误目前只显示红框","trigger":true,"must":["合理预填或选项","常驻标签","具体错误与修正提示","失败保留输入"],"fail_if":["错误仅颜色","增加不必要登录或信息收集"]}
+{"id":"navigation-modality","prompt":"用Apple通用设计思想审查创作工具导航和弹窗","trigger":true,"must":["目的地与对象操作分开","返回与编辑上下文","模态有明确利益","撤销按真实数据合同"],"fail_if":["每个详情强制模态","删除动画当作恢复功能"]}
+{"id":"typography-color-icons","prompt":"阅读器按Apple HIG重排字重和层级，保持原有品牌色","trigger":true,"must":["语义文字层级与放大","色彩含义一致","图标清楚且有可访问名称","保留品牌"],"fail_if":["自动下载官方字体或图标","主题简单全局反转"]}
+{"id":"localization","prompt":"Apple-inspired界面需要适配长译文及RTL语言","trigger":true,"must":["内容宽度和文本放大","语言方向与语义顺序","数字本身不镜像","明确实际测试的语言范围"],"fail_if":["截图翻转假装RTL支持","未经测试声称全部语言通过"]}

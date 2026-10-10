@@ -30,10 +30,11 @@ jobs:
         run: |
           python - <<'EOF'
           import json
-          with open("high-intensity-testing/evals/cases.jsonl", encoding="utf-8") as f:
-              n = sum(1 for line in f if line.strip() and json.loads(line))
-          print(f"{n} eval cases OK")
-          assert n >= 10
+          for path in ("high-intensity-testing/evals/cases.jsonl", "apple-interface-design/evals/cases.jsonl"):
+              with open(path, encoding="utf-8") as f:
+                  n = sum(1 for line in f if line.strip() and json.loads(line))
+              print(f"{path}: {n} eval cases OK")
+              assert n >= 10
           EOF
 
       - name: Preflight smoke (fallback works on this repo, no OCR)
@@ -45,3 +46,32 @@ jobs:
           pip install skills-ref
           skills-ref validate high-intensity-testing || true
           skills-ref validate mine-imagery-gehi || true
+          skills-ref validate apple-interface-design || true
+
+  apple-web-demo:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: apple-interface-design
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: npm
+          cache-dependency-path: apple-interface-design/package-lock.json
+      - run: npm ci
+      - run: npm test
+      - name: Install isolated CI browser
+        run: npx playwright install --with-deps chromium
+      - name: Continuous browser regression
+        run: npm run test:browser -- --out ./artifacts/ci
+      - name: Cross-product reader regression
+        run: npm run test:reader -- --out ./artifacts/ci-reader
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: apple-web-demo-evidence
+          path: |
+            apple-interface-design/artifacts/ci
+            apple-interface-design/artifacts/ci-reader

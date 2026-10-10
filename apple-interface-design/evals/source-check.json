@@ -1,0 +1,24 @@
+{
+  "checkedDate": "2026-10-10",
+  "method": "Headed Edge，执行页面JavaScript后检查main正文；非仅静态抓取",
+  "pages": [
+    {
+      "url": "https://developer.apple.com/design/human-interface-guidelines/materials",
+      "title": "Materials",
+      "renderedMainCharacters": 11844,
+      "hasContentBeyondJavaScriptNotice": true
+    },
+    {
+      "url": "https://developer.apple.com/design/human-interface-guidelines/motion",
+      "title": "Motion",
+      "renderedMainCharacters": 7696,
+      "hasContentBeyondJavaScriptNotice": true
+    },
+    {
+      "url": "https://developer.apple.com/design/human-interface-guidelines/layout",
+      "title": "Layout",
+      "renderedMainCharacters": 17522,
+      "hasContentBeyondJavaScriptNotice": true
+    }
+  ]
+}

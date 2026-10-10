@@ -1,2 +1,4 @@
 __pycache__/
 *.pyc
+apple-interface-design/node_modules/
+apple-interface-design/artifacts/

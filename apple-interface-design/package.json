@@ -1,0 +1,15 @@
+{
+  "name": "apple-interface-design-demo",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Liquid Glass Web 演示的独立浏览器验收，不连接真实业务服务。",
+  "scripts": {
+    "test": "node --test tests/*.test.mjs",
+    "test:browser": "node scripts/verify-demo.mjs",
+    "test:reader": "node scripts/verify-reader.mjs"
+  },
+  "devDependencies": {
+    "playwright": "1.58.2"
+  }
+}
