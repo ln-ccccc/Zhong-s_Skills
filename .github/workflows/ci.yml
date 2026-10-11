@@ -19,6 +19,7 @@ jobs:
         run: |
           python -m py_compile mine-imagery-gehi/scripts/*.py
           python -m py_compile high-intensity-testing/scripts/*.py
+          python -m py_compile fullstack-gui-testing/scripts/*.py
 
       - name: Unit tests (mine-imagery-gehi)
         run: python -m unittest discover -s mine-imagery-gehi/tests -p "test_*.py" -v
@@ -26,11 +27,14 @@ jobs:
       - name: Unit tests (high-intensity-testing preflight)
         run: python -m unittest discover -s high-intensity-testing/tests -p "test_*.py" -v
 
+      - name: Evidence consistency tests (fullstack-gui-testing)
+        run: python -m unittest discover -s fullstack-gui-testing/tests -p "test_*.py" -v
+
       - name: Eval cases are well-formed JSONL
         run: |
           python - <<'EOF'
           import json
-          for path in ("high-intensity-testing/evals/cases.jsonl", "apple-interface-design/evals/cases.jsonl"):
+          for path in ("high-intensity-testing/evals/cases.jsonl", "apple-interface-design/evals/cases.jsonl", "fullstack-gui-testing/evals/cases.jsonl"):
               with open(path, encoding="utf-8") as f:
                   n = sum(1 for line in f if line.strip() and json.loads(line))
               print(f"{path}: {n} eval cases OK")
@@ -47,6 +51,11 @@ jobs:
           skills-ref validate high-intensity-testing || true
           skills-ref validate mine-imagery-gehi || true
           skills-ref validate apple-interface-design || true
+
+      - name: Skill spec validation (fullstack-gui-testing, required)
+        run: |
+          pip install skills-ref
+          agentskills validate fullstack-gui-testing
 
   apple-web-demo:
     runs-on: ubuntu-latest

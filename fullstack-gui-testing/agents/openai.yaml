@@ -1,0 +1,4 @@
+interface:
+  display_name: "前后端与 GUI 深度测试"
+  short_description: "验证真实前后端链路、连续浏览器操作、持久化与视觉证据，明确模拟和未测边界"
+  default_prompt: "使用 $fullstack-gui-testing 对当前项目进行前后端与真实浏览器深度验收，交付可复现缺陷、实际截图和未测项。"
