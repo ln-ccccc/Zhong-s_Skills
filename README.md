@@ -10,7 +10,7 @@
 |---|---|
 | [apple-interface-design](apple-interface-design/SKILL.md) | 通用Apple设计思想：任务与层级、字体/色彩/图标、导航/输入/反馈、控制权与可访问性；配套Liquid Glass/Motion/Layout，含跨产品案例与浏览器验收 |
 | [mine-imagery-gehi](mine-imagery-gehi/SKILL.md) | 按 KML 多边形批量获取谷歌地球影像(最新一期/多期历史),GEHistoricalImagery 时间轴查询 + z18 下载 + EPSG:4326 GeoTIFF,免 GUI、免 GDAL |
-| [high-intensity-testing](high-intensity-testing/SKILL.md) | 超高强度审查与测试工作流:并行子代理六步审查 + 修复声明对照 + 发现固化成测试,附 15 问触发清单与 35 条失效模式原则(T2–T37) |
+| [high-intensity-testing](high-intensity-testing/SKILL.md) | 超高强度审查与测试工作流:并行子代理六步审查 + 修复声明对照 + 回归测试,附18问与T2–T40原则，覆盖数据真实性、独立复算、显示语义与最终产物验收 |
 
 ## 目录约定
 

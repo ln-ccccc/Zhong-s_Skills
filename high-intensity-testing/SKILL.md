@@ -1,6 +1,6 @@
 ---
 name: high-intensity-testing
-description: "超高强度代码审查与测试工作流——并行子代理六步审查、修复声明 vs 实现对照、发现固化成测试,附 15 问触发清单与 35 条失效模式原则(T2–T37)。当任务涉及:全面审查、高强度测试、对抗审计、里程碑前质量门、「按上次审查的方式」、修复批次验收、审查报告、回归测试固化、审查一个分支/一批修复的质量时使用。Ultra-high-intensity review & testing workflow: six-step parallel sub-agent review, claim-to-evidence audit, 35 failure-mode principles."
+description: "超高强度代码审查与测试工作流——并行子代理六步审查、修复声明与实现对照、发现固化成测试、数据真实性与图表验收。当任务涉及全面审查、高强度测试、对抗审计、里程碑质量门、修复批次验收、回归测试固化，或核验真实数据计算与可视化结果时使用。Ultra-high-intensity review, claim-to-evidence audit, data provenance and visual validation."
 ---
 
 # 超高强度审查与测试(high-intensity-testing)
@@ -31,6 +31,16 @@ description: "超高强度代码审查与测试工作流——并行子代理六
 - 分级定义:P0 Blocker / P1 Major / P2 Moderate / P3 Minor,见 [references/severity.md](references/severity.md)。
 - 报告格式见 [references/report-template.md](references/report-template.md)。
 
+## 数据计算与可视化验收
+
+涉及数据计算、模型结果、图表或汇报样例时，读取 [references/data-and-visual-validation.md](references/data-and-visual-validation.md)，把以下检查写进任务书与验收报告：
+
+- 分别判断**功能运行、数据可信、显示正确**，逐项记录通过、失败、未验证或不适用；不能用HTTP成功、build成功或无页面异常概括全部通过。
+- 区分合成回归数据与真实业务样例，核对来源、日期、单位、输入字段/波段和空间或实体身份；真实RGB不证明附加字段/红外波段真实。
+- 用独立参考检查数值、有效掩膜及变化分布；预期值不能直接复制待测输出。恒定结果应查原因，有独立依据的均匀观测可以通过。
+- 从实际用户入口连续操作，核对原图、结果、图例、悬停数值与实际下载内容；图片能解码或颜色不同不证明业务正确。
+- 结论绑定实际测试的源码、数据与构建产物。专项通过、旧版本全程通过、失败后的重试通过分别记录，保留失败及归因状态。
+
 ## 预检:OCR 可用则委托,不可用则降级
 
 ```
@@ -58,7 +68,8 @@ ocr CLI 可用?
 
 | 需求 | 读 |
 |---|---|
-| 15 问触发清单 + T2–T37 失效模式原则 | [references/failure-modes.md](references/failure-modes.md) |
+| 18 问触发清单 + T2–T40 失效模式原则 | [references/failure-modes.md](references/failure-modes.md) |
+| 真实数据、独立复算、图表/原图/导出与最终产物验收 | [references/data-and-visual-validation.md](references/data-and-visual-validation.md) |
 | 五阶段全流程 / 预检降级细节 / 修复纪律 / 十步执行单 | [references/review-playbook.md](references/review-playbook.md) |
 | P0–P3 定义 / 共识 vs 证据 / 修复声明对照 | [references/severity.md](references/severity.md) |
 | 报告输出格式 | [references/report-template.md](references/report-template.md) |

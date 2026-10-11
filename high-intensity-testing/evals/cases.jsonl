@@ -10,3 +10,5 @@
 {"prompt": "跑一下后端测试套件", "trigger": false}
 {"prompt": "帮我读一下这个函数在干嘛", "trigger": false}
 {"prompt": "帮我看看这个单文件有没有明显问题", "trigger": false, "note": "灰色地带:只做文件级走查,不派遍/子代理"}
+{"prompt":"真实数据计算结果与图表明天要演示，帮我验收数值、原图和下载","trigger":true,"mode":"full","references":["data-and-visual-validation.md","report-template.md"],"must":["来源与关键字段核对","独立参考","连续GUI与实际导出","三项结论及最终产物绑定"]}
+{"prompt":"光谱结果基本相同，但公式测试全绿，确认是否可以用于真实演示","trigger":true,"mode":"fast","references":["data-and-visual-validation.md"],"must":["核查恒定原因与输入来源","区分合成回归与真实观测","不机械使用统一方差阈值"]}
