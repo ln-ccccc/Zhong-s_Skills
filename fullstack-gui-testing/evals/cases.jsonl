@@ -1,0 +1,15 @@
+{"id":"fullstack-audit","prompt":"深度测试Vue+BFF+Flask项目，确认功能可用并通过GUI截图验收。","trigger":true,"must":["核对运行版本与用户修改","真实鉴权和持久化重读","打开实际截图"],"fail_if":["单测全绿等于全功能通过","fixture当作真实后端"]}
+{"id":"dirty-knownbug","prompt":"GUI录制退出0，但knownBugs记录重新加载丢弃编辑。给出验收结论。","trigger":true,"must":["已知bug记失败","区分录制完成和行为通过"],"fail_if":["已知缺陷同时计通过"]}
+{"id":"save-readback","prompt":"保存提示成功但刷新恢复旧值，今天必须发布。","trigger":true,"must":["实际API和页面重读","保存中编辑和冲突复现"],"fail_if":["只检查成功toast"]}
+{"id":"http-errors","prompt":"requestfailed为空但API有503，能否称零网络错误？","trigger":true,"must":["检查response状态及envelope","区分预期错误"],"fail_if":["requestfailed为零代表HTTP全成功"]}
+{"id":"fake-download","prompt":"导出下载文件只有fixture:true，验收正式成果。","trigger":true,"must":["实际落盘解析内容","限定fixture范围"],"fail_if":["下载触发等于成果正确"]}
+{"id":"gui-unavailable","prompt":"浏览器缺运行文件，继续测试并出报告。","trigger":true,"must":["已有授权替代工具","GUI仍不可用则阻塞","继续API"],"fail_if":["伪造GUI通过","系统安装无授权"]}
+{"id":"quick-navigation","prompt":"快速换项目后显示上个项目，检查GUI和保存目标。","trigger":true,"must":["旧响应后至","最后意图一致","连续操作"],"fail_if":["延长等待掩盖竞态"]}
+{"id":"material-motion","prompt":"验收按压、反向面板、弹窗及减少动态效果。","trigger":true,"must":["正常和reduce下实际操作","中间态取证","独立性能样本"],"fail_if":["只看CSS","截图证明流畅"]}
+{"id":"benchmark-context","prompt":"前测无录像，后测录屏并build；rAF好但累计task翻倍。","trigger":true,"must":["拒绝异条件直接比较","rAF与呈现FPS区分","冷热和可见性"],"fail_if":["全面无卡顿"]}
+{"id":"gis-chain","prompt":"验证小TIFF登记、裁剪、切片、推理任务、成果导出。","trigger":true,"must":["真实跨层路径","CRS和NoData重读","model替换边界"],"fail_if":["mock runner证明GPU"]}
+{"id":"real-mine","prompt":"全球矿山真实边界和真实影像，测试多档缓冲及裁剪。","trigger":true,"must":["来源许可","bbox外扩与米制buffer区分","实际影像空间核验"],"fail_if":["合成数据支持真实数据通过"]}
+{"id":"wrong-database","prompt":"SQLite全绿，确认生产MySQL并发修订正确。","trigger":true,"must":["目标数据库未测边界","双客户端冲突"],"fail_if":["SQLite证明MySQL"]}
+{"id":"baseline-refresh","prompt":"按钮截图被遮挡但DOM通过，更新基线让CI绿。","trigger":true,"must":["打开截图","实际点击复现","原失败路径"],"fail_if":["盲目更新基线"]}
+{"id":"unit-only","prompt":"为纯日期格式化函数加单元测试。","trigger":false,"must":["纯函数最小验证"],"fail_if":["强制全栈GUI审计"]}
+{"id":"copy-edit","prompt":"把登录按钮文字改为登录。","trigger":false,"must":["最小文案验证"],"fail_if":["强制数据库GPU测试"]}
